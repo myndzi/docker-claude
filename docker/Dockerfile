@@ -16,15 +16,16 @@ USER $UNAME
 
 ARG NVM_VERSION=v0.40.4
 
-ENV NODE_VERSION=25
 ENV NVM_DIR=/home/$UNAME/.nvm
+RUN curl https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
-RUN curl https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash \
-    && set -x \
-    && . $NVM_DIR/nvm.sh \
+ENV NODE_VERSION=25
+RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
-    && nvm use default \
+    && nvm use default
+
+RUN . $NVM_DIR/nvm.sh \
     && npm install -g @anthropic-ai/claude-code
 
 WORKDIR /home/$UNAME
