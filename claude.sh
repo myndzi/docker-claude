@@ -15,6 +15,7 @@ else
 fi
 
 docker run --rm \
+    -e "TERM=$TERM" \
     -v "$HERE/.local:$DEV_HOME/.local" \
     -v "$HERE/.claude:$DEV_HOME/.claude" \
     -v "$HERE/.nvm-versions:$DEV_HOME/.nvm/versions" \

@@ -1,19 +1,18 @@
-#!/bin/bash
+#!/bin/bash -i
+
+# shellcheck disable=SC1091
+. "$HOME/.bashrc"
 
 set -euo pipefail
-
 if [[ "$1" = "--" ]]; then
     # when called with args: just do what was asked
     shift
-    exec bash -c "$@"
+    "$@"
+    exit $?
 fi
 
 # otherwise: assume $1 is the node version to use, so that
 # we match the dependencies installed in the project
-
-# shellcheck disable=SC1091
-. "$NVM_DIR/nvm.sh"
-
 NODE_VERSION="$1"
 shift
 

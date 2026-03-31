@@ -2,8 +2,6 @@ FROM ubuntu:latest
 
 ARG USER=ubuntu
 
-# entrypoint for node version-switching
-COPY entrypoint.sh /entrypoint.sh
 
 # install: deps, useful utilities
 RUN apt-get update \
@@ -14,8 +12,9 @@ RUN apt-get update \
 USER $USER
 
 # prep for claude install
-ENV PATH=~/.local/bin:$PATH
 ENV CLAUDE_CONFIG_DIR=/home/$USER/.claude
+# fix the stupid warning. claude apparently parses your bashrc rather than just... query the environment
+RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
 # install nvm so we can match the caller's node version
 ARG NVM_VERSION=v0.40.4
@@ -24,6 +23,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.s
 
 WORKDIR /home/$USER
 
+# entrypoint for node version-switching
+COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-CMD ["/bin/bash", "-c", "claude"]
