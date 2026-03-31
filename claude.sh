@@ -3,7 +3,7 @@
 set -euo pipefail
 
 HERE=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-DEV_HOME="/home/dev"
+DEV_HOME="/home/ubuntu"
 
 PROJECT_NAME="$( basename "$PWD" )"
 
